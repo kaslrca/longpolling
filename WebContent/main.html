@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=BIG5">
+	<title></title>
+	<link href="scripts/bootstrap-theme.css" rel="stylesheet" type="text/css" />
+	<link href="scripts/bootstrap.css" rel="stylesheet" type="text/css" />
+	
+	<script src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.14/angular.js"></script>
+	<script src="https://cdn.jsdelivr.net/angular.ui-router/0.2.10/angular-ui-router.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.14/angular-animate.js"></script>
+	<script src="scripts/bootstrap.min.js"></script>
+	<script src="scripts/env.js"></script>
+	<script src="scripts/directive.js"></script>
+	<script src="scripts/service.js"></script>
+	<script src="scripts/controller.js"></script>
+	<script src="scripts/module.js"></script>
+	
+	<link rel="stylesheet/less" type="text/css" href="scripts/longpolling.less">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/less.js/1.7.3/less.min.js"></script>
+    
+</head>
+<body>
+	<div class="container-fluid" ng-app="longpollingModule" ng-controller="mainCtrl">
+		<div id="masterUI" ui-view="master"></div>
+	</div>
+</body>
+
+<script type="text/javascript">
+	
+	var myApp =  angular.module('longpollingModule');
+	myApp.run(['service', "$state", function(service, $state) {
+		
+		angular.element(document).ready(function() {
+			
+			$state.go('login');
+			var polling = false;
+			
+			window.setInterval(function () {
+				if (!polling) {
+					polling = true;
+		
+					service.listen(
+							
+						function(r) {
+							$("#context").html($("#context").html() + "<br />" + r );
+							$("#context").scrollTop($("#context")[0].scrollHeight);
+							polling = false;
+						}
+					);
+				}
+			}, 300);
+		});
+	}]);
+	
+	
+	myApp.controller("mainCtrl", ["$scope", 
+		function($scope){
+	}]);
+	
+</script>
+
+</html>
+
