@@ -30,7 +30,7 @@
 <script type="text/javascript">
 	
 	var myApp =  angular.module('longpollingModule');
-	myApp.run(['service', "$state", function(service, $state) {
+	myApp.run(['index', 'service', "$state", function(index, service, $state) {
 		
 		angular.element(document).ready(function() {
 			
@@ -44,8 +44,14 @@
 					service.listen(
 							
 						function(r) {
-							$("#context").html($("#context").html() + "<br />" + r );
+							var data = $.parseJSON(r);
+							if(data.id == index){
+								$("#context").html($("#context").html() + "<p style='text-align:right;'>" + data.message + "</p>");
+							}else{
+								$("#context").html($("#context").html() + "<p>" + data.name + " : " + data.message + "</p>");
+							}
 							$("#context").scrollTop($("#context")[0].scrollHeight);
+							
 							polling = false;
 						}
 					);
