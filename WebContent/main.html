@@ -11,30 +11,27 @@
 	<script src="https://cdn.jsdelivr.net/angular.ui-router/0.2.10/angular-ui-router.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.14/angular-animate.js"></script>
 	<script src="scripts/bootstrap.min.js"></script>
-	<script src="scripts/env.js"></script>
-	<script src="scripts/directive.js"></script>
-	<script src="scripts/service.js"></script>
-	<script src="scripts/controller.js"></script>
-	<script src="scripts/module.js"></script>
+	<script src="scripts/longpolling.min.js"></script>
 	
 	<link rel="stylesheet/less" type="text/css" href="scripts/longpolling.less">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/less.js/1.7.3/less.min.js"></script>
     
 </head>
 <body>
-	<div class="container-fluid" ng-app="longpollingModule" ng-controller="mainCtrl">
+	<div class="container-fluid" ng-app="longpolling.module" ng-controller="mainCtrl">
 		<div id="masterUI" ui-view="master"></div>
 	</div>
 </body>
 
 <script type="text/javascript">
 	
-	var myApp =  angular.module('longpollingModule');
+	var myApp =  angular.module('longpolling.module');
 	myApp.run(['index', 'service', "$state", function(index, service, $state) {
 		
 		angular.element(document).ready(function() {
 			
 			$state.go('login');
+			
 			var polling = false;
 			
 			window.setInterval(function () {
